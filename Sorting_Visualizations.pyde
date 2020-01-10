@@ -223,6 +223,35 @@ def bubble_sort(v):
             break
     return stages
 
+#thanks to https://www.geeksforgeeks.org/python-program-for-heap-sort/
+#for providing me with a template for heap_sort and heapify
+def heapify(v, n, i): 
+    largest = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+    
+    if l < n and v[i] < v[l]: 
+        largest = l
+    if r < n and v[largest] < v[r]: 
+        largest = r
+    
+    if largest != i: 
+        v[i],v[largest]=v[largest],v[i]
+        heapify(v, n, largest)
+    
+def heap_sort(v):
+    stages.append(v[:])
+    l = len(v)
+    
+    for i in range(l, -1, -1): 
+        heapify(v, l, i) 
+    
+    for i in range(l-1, 0, -1):
+        v[i], v[0] = v[0], v[i]
+        heapify(v, i, 0)
+        stages.append(v[:])
+
+
 def visualize():
     for i in range(element_count):
         colors.append((i * 255/element_count, 20, 60))
@@ -269,7 +298,8 @@ def setup():
           "Merge Sort":merge_sort,
           "Insertion Sort":insertion_sort,
           "Radix":radix_sort,
-          "Quicksort":quick_sort}
+          "Quicksort":quick_sort,
+          "Heap Sort":heap_sort}
     opt=JOptionPane.showOptionDialog(
         None,
         "Choose a sorting algorithm",
