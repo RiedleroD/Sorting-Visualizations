@@ -339,4 +339,4 @@ def setup():
 
     
     save_seed = str(int(random(10000)))
-    save('Examples/Gnome/%s.png' % save_seed)
+    save('Examples/%s/%s.png'%(opts.keys()[opt],save_seed))
