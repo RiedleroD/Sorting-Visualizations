@@ -327,6 +327,22 @@ def merge(l1,l2):
             j-=1
         l1.insert(j+1,num)
 
+def cocktail_shaker_sort(v):
+    i=0
+    l=len(v)
+    while not sorted(v):
+        stages.append(v[:])
+        while i<l-1:
+            if v[i]>v[i+1]:
+                v[i],v[i+1]=v[i+1],v[i]
+            i+=1
+        stages.append(v[:])
+        while i>0:
+            if v[i]<v[i-1]:
+                v[i],v[i-1]=v[i-1],v[i]
+            i-=1
+    stages.append(v[:])
+
 def visualize():
     for i in range(element_count):
         colors.append((i * 255/element_count, 20, 60))
@@ -377,7 +393,8 @@ def setup():
           "Heap Sort":heap_sort,
           "Shell Sort":shell_sort,
           "Cycle Sort":cycle_sort,
-          "Strand Sort":strand_sort}
+          "Strand Sort":strand_sort,
+          "Cocktail Shaker":cocktail_shaker_sort}
     opt=JOptionPane.showOptionDialog(
         None,
         "Choose a sorting algorithm",
