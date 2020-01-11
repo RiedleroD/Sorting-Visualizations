@@ -42,7 +42,9 @@ def shuffle(l):
     return shuffled
 
 
-def partition(v, low, high):
+def partition(v, low=0, high=None):
+    if high==None:
+        high=len(v)-1
     pivot = v[high]
     
     index = low - 1
@@ -155,7 +157,7 @@ def merge_sort(v):
             k += 1
 
     stages.append(v[:])
-
+    
 def quick_sort(v, low=0, high=None):
     stages.append(v[:])
     if high==None:
@@ -182,7 +184,9 @@ def bogo_sort(v):
         
     return stages
 
-def insertion_sort(v):
+def insertion_sort(v,first=True):
+    if not first:
+        stages=[]
     stages.append(v)
     
     index = 1
@@ -250,7 +254,22 @@ def heap_sort(v):
         v[i], v[0] = v[0], v[i]
         heapify(v, i, 0)
         stages.append(v[:])
-
+    
+#thanks to https://www.geeksforgeeks.org/python-program-for-shellsort/
+#for providing me (Riedler) with a template for shell sort
+def shell_sort(v):
+    l=len(v)
+    gap=l/2
+    stages.append(v[:])
+    while gap>0:
+        for i in range(gap,l):
+            temp=v[i]
+            while i>=gap and v[i-gap]>temp:
+                v[i]=v[i-gap]
+                i-=gap
+            v[i]=temp
+        gap/=2
+        stages.append(v[:])
 
 def visualize():
     for i in range(element_count):
@@ -299,7 +318,8 @@ def setup():
           "Insertion Sort":insertion_sort,
           "Radix":radix_sort,
           "Quicksort":quick_sort,
-          "Heap Sort":heap_sort}
+          "Heap Sort":heap_sort,
+          "Shell Sort":shell_sort}
     opt=JOptionPane.showOptionDialog(
         None,
         "Choose a sorting algorithm",
