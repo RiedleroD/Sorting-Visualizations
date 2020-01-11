@@ -188,9 +188,7 @@ def bogo_sort(v):
         
     return stages
 
-def insertion_sort(v,first=True):
-    if not first:
-        stages=[]
+def insertion_sort(v):
     stages.append(v)
     
     index = 1
