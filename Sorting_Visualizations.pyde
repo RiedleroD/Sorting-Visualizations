@@ -301,6 +301,32 @@ def cycle_sort(v):
             v[pos],item=item,v[pos]
     stages.append(v[:])
 
+def strand_sort(v,op=None):
+    if op==None:
+        op=[]
+        stages.append(v[:])
+    l=len(v)-2
+    if l==-2:
+        return
+    w=[v.pop(0)]
+    for i in range(l,-1,-1):
+        if v[i]>=w[-1]:
+            w.append(v.pop(i))
+    
+    merge(op,w)
+    stages.append(v[:]+op[:])
+    strand_sort(v,op)
+
+def merge(l1,l2):
+    j=len(l1)-1
+    if j==-1:
+        l1[:]=l2
+        return
+    for num in reversed(l2):
+        while j>-1 and not l1[j]<num:
+            j-=1
+        l1.insert(j+1,num)
+
 def visualize():
     for i in range(element_count):
         colors.append((i * 255/element_count, 20, 60))
@@ -350,7 +376,8 @@ def setup():
           "Quicksort":quick_sort,
           "Heap Sort":heap_sort,
           "Shell Sort":shell_sort,
-          "Cycle Sort":cycle_sort}
+          "Cycle Sort":cycle_sort,
+          "Strand Sort":strand_sort}
     opt=JOptionPane.showOptionDialog(
         None,
         "Choose a sorting algorithm",
