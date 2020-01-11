@@ -273,6 +273,34 @@ def shell_sort(v):
         gap/=2
         stages.append(v[:])
 
+#thanks to https://en.wikipedia.org/wiki/Cycle_sort#Implementation
+#for provinding me (Riedler) with a template for cycle sort
+def cycle_sort(v):
+    l=len(v)
+    
+    for s in range(l-1):
+        item=v[s]
+        pos=s
+        for i in range(s+1,l):
+            if v[i]<item:
+                pos+=1
+        if pos==s:
+            continue
+        else: #only add stage if a change is about to be made
+            stages.append(v[:])
+        while item==v[pos]:
+            pos+=1
+        v[pos],item=item,v[pos]
+        while pos!=s:
+            pos=s
+            for i in range(s+1,l):
+                if v[i]<item:
+                    pos+=1
+            while item==v[pos]:
+                pos+=1
+            v[pos],item=item,v[pos]
+    stages.append(v[:])
+
 def visualize():
     for i in range(element_count):
         colors.append((i * 255/element_count, 20, 60))
@@ -321,7 +349,8 @@ def setup():
           "Radix":radix_sort,
           "Quicksort":quick_sort,
           "Heap Sort":heap_sort,
-          "Shell Sort":shell_sort}
+          "Shell Sort":shell_sort,
+          "Cycle Sort":cycle_sort}
     opt=JOptionPane.showOptionDialog(
         None,
         "Choose a sorting algorithm",
