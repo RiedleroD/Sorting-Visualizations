@@ -123,17 +123,18 @@ def radix_sort(v):
         stages.append(v[:])
         n*=10
 
-def merge_sort(v):
-    
-    stages.append(v[:])
+def merge_sort(v,start=0,end=None):
+    if end==None:
+        end=len(v)
+        stages.append(v[:])
     
     if len(v) > 1:
         mid = len(v)/2
         L = v[:mid]
         R = v[mid:]
         
-        merge_sort(L)
-        merge_sort(R)
+        merge_sort(L,start=start,end=start+mid)
+        merge_sort(R,start=start+mid,end=end)
         
         i = j = k = 0
         
@@ -155,8 +156,11 @@ def merge_sort(v):
             v[k] = R[j]
             j += 1
             k += 1
-
-    stages.append(v[:])
+    #only if recursion depth is not that deep to avoid straight lines
+    if end-start>2:
+        #copying the last stage and then overwriting the parts that got sorted
+        stages.append(stages[-1][:])
+        stages[-1][start:end]=v[:]
     
 def quick_sort(v, low=0, high=None):
     stages.append(v[:])
