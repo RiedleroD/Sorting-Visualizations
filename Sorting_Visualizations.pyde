@@ -363,7 +363,7 @@ jp=JOptionPane()
 dialog=jp.createDialog(None,"Choose an algorithm")
 jp.remove(0)
 jp.remove(0)
-dialog.setLayout(GridLayout(5,5))
+dialog.setLayout(GridLayout(0,2))
 btns=[]
 opt=None
 def btnActionListener(e):
