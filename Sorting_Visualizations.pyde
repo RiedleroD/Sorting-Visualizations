@@ -346,6 +346,24 @@ def cocktail_shaker_sort(v):
                 v[i],v[i-1]=v[i-1],v[i]
             i-=1
     stages.append(v[:])
+
+def comb_sort(v):
+    l=len(v)
+    gap=l
+    shrink=1.3
+    fin=False
+    
+    while not fin:
+        stages.append(v[:])
+        gap=floor(gap/shrink)
+        if gap<1:
+            gap=1
+            fin=True
+        for i in range(l-gap):
+            if v[i]>v[i+gap]:
+                v[i],v[i+gap]=v[i+gap],v[i]
+                fin=False
+
 opts={"Bogosort":bogo_sort,
       "Gnome Sort":gnome_sort,
       "Bubble Sort":bubble_sort,
@@ -357,7 +375,8 @@ opts={"Bogosort":bogo_sort,
       "Shell Sort":shell_sort,
       "Cycle Sort":cycle_sort,
       "Strand Sort":strand_sort,
-      "Cocktail Shaker":cocktail_shaker_sort}
+      "Cocktail Shaker":cocktail_shaker_sort,
+      "Comb Sort":comb_sort}
 
 jp=JOptionPane()
 dialog=jp.createDialog(None,"Choose an algorithm")
