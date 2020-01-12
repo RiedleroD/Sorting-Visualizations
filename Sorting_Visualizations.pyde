@@ -1,4 +1,8 @@
 import javax.swing.JOptionPane as JOptionPane
+import javax.swing.JPanel as JPanel
+import javax.swing.JToggleButton as JToggleButton
+import java.awt.GridLayout as GridLayout
+import javax.swing.JDialog as JDialog
 
 w, h = 1050, 750
 
@@ -342,6 +346,39 @@ def cocktail_shaker_sort(v):
                 v[i],v[i-1]=v[i-1],v[i]
             i-=1
     stages.append(v[:])
+opts={"Bogosort":bogo_sort,
+      "Gnome Sort":gnome_sort,
+      "Bubble Sort":bubble_sort,
+      "Merge Sort":merge_sort,
+      "Insertion Sort":insertion_sort,
+      "Radix":radix_sort,
+      "Quicksort":quick_sort,
+      "Heap Sort":heap_sort,
+      "Shell Sort":shell_sort,
+      "Cycle Sort":cycle_sort,
+      "Strand Sort":strand_sort,
+      "Cocktail Shaker":cocktail_shaker_sort}
+
+jp=JOptionPane()
+dialog=jp.createDialog(None,"Choose an algorithm")
+jp.remove(0)
+jp.remove(0)
+dialog.setLayout(GridLayout(5,5))
+btns=[]
+opt=None
+def btnActionListener(e):
+    global opt,btns,dialog
+    btn=e.getSource()
+    if btn.isSelected():
+        opt=btns.index(btn)
+        dialog.setVisible(False)
+    
+for txt in opts.keys():
+    btn=JToggleButton(txt)
+    btn.addActionListener(btnActionListener)
+    dialog.add(btn)
+    btns.append(btn)
+dialog.setVisible(True)
 
 def visualize():
     for i in range(element_count):
@@ -378,36 +415,16 @@ def setup():
     pixelDensity(2)
     background(colors[2][0], colors[2][1], colors[2][2])
     strokeWeight(stroke_weight)
-
-    v = []
-    for e in range(element_count):
-        v.append(e)
+    
+    if opt!=None:
+        v = []
+        for e in range(element_count):
+            v.append(e)
+            
+        opts.values()[opt](shuffle(v))
         
-    opts={"Bogosort":bogo_sort,
-          "Gnome Sort":gnome_sort,
-          "Bubble Sort":bubble_sort,
-          "Merge Sort":merge_sort,
-          "Insertion Sort":insertion_sort,
-          "Radix":radix_sort,
-          "Quicksort":quick_sort,
-          "Heap Sort":heap_sort,
-          "Shell Sort":shell_sort,
-          "Cycle Sort":cycle_sort,
-          "Strand Sort":strand_sort,
-          "Cocktail Shaker":cocktail_shaker_sort}
-    opt=JOptionPane.showOptionDialog(
-        None,
-        "Choose a sorting algorithm",
-        "Choosening",
-        JOptionPane.DEFAULT_OPTION,
-        JOptionPane.WARNING_MESSAGE,
-        None,
-        opts.keys(),
-        opts.keys()[0])
-    opts.values()[opt](shuffle(v))
+        visualize()
     
-    visualize()
-
-    
-    save_seed = str(int(random(10000)))
-    save('Examples/%s/%s.png'%(opts.keys()[opt],save_seed))
+        
+        save_seed = str(int(random(10000)))
+        save('Examples/%s/%s.png'%(opts.keys()[opt],save_seed))
